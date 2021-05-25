@@ -1,8 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
 import P from '../components/paragraph';
 import Post from '../components/post';
 import styles from './styles.module.scss';
+import { posts } from '../domain/posts/selectors';
+import { getPosts } from '../domain/posts/actions';
+import { RootState } from '../store/reducers';
 
 type PostModel = {
   title: string;
@@ -11,50 +16,37 @@ type PostModel = {
 
 type HomeProps = {
   posts: PostModel[];
-}
+}&
+ReturnType<typeof mapStateToProps> &
+ReturnType<typeof mapDispatchToProps>
 
-export default class Home extends React.PureComponent<HomeProps> {
-  static async getInitialProps() {
-    const posts = [
-      {
-        title: 'My second blog post',
-        paragraphs: [
-          'Hello there',
-          'This is an example of a componentized blog post',
-        ],
-      },
-      {
-        title: 'My first blog post',
-        paragraphs: [
-          '<div style="background: pink">Hello there</div>',
-          'This is another example.',
-          'Wa-hoo!',
-        ],
-      },
-      {
-        title: 'The final blog post',
-        paragraphs: [
-          'C’est fin',
-        ],
-      },
-    ];
-
-    return { posts }
+class Home extends React.PureComponent<HomeProps> {
+  componentDidMount() {
+    this.props.getPosts(true);
   }
 
   render(){
     return(
       <div className={styles.main}>
-        {this.props.posts.map(post => (
-          <>
-            <Post title={post.title}>
-              {post.paragraphs.map(paragraph => (
-                <P>{paragraph}</P>
+        {this.props.posts.map((post, i) => (
+          <React.Fragment key={`frag-${i}`}>
+            <Post title={post.title} key={`${post.title}-${i}`}>
+              {post.paragraphs.map((paragraph, j) => (
+                <P key={`p-${j}`}>{paragraph}</P>
               ))}
             </Post>
-            <hr className={styles.hr} />
-          </>))}
+            <hr className={styles.hr} key={`hr-${i}`} />
+          </React.Fragment>))}
       </div>
     );
   }
 }
+
+const mapStateToProps = (rootState: RootState) => ({
+  posts: posts(rootState),
+});
+const mapDispatchToProps = (dispatch: Dispatch) => (bindActionCreators({
+  getPosts,
+}, dispatch));
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
