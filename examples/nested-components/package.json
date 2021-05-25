@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "test": "jest --watch",
-    "test-coverage": "jest --collect-coverage"
+    "test-coverage": "jest --collect-coverage",
+    "server": "npm install --prefix ./server && node ./server/server.js"
   },
   "dependencies": {
     "next": "latest",
