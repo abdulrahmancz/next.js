@@ -1,9 +1,13 @@
 # CISCO INTERVIEW
 
 Start local server with post `npm run server`
+
 Start the web instance with `npm run dev`
+
 Start tests with `npm run test`
+
 Get test coverage with `npm run test-coverage`
+
 
 # Example app using nested components
 
