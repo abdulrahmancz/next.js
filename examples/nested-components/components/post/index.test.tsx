@@ -8,9 +8,7 @@ test('component renders the text correctly', () => {
   expect(component.children()).toHaveLength(2);
 });
 
-test('component handles rendering nothing', () => {
+test('component handles rendering with no children', () => {
   const component = shallow(<Post title="test title"></Post>);
   expect(component.children()).toHaveLength(1);
 });
-
-export {};

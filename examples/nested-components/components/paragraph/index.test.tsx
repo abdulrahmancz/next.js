@@ -13,4 +13,7 @@ test('component handles rendering nothing', () => {
   expect(component.children()).toHaveLength(0);
 });
 
-export {};
+test('component handles its content as text', () => {
+  const component = shallow(<P>"<div>inner html</div><div>inner html</div>"</P>);
+  expect(component.children()).toHaveLength(1);
+});

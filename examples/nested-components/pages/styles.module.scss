@@ -4,6 +4,30 @@
   padding: 10px;
 }
 
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(134, 132, 132, 0.3);
+  font-weight: bold;
+  color: rgb(53, 28, 196);
+  text-align: center;
+}
+
+.error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(224, 59, 59, 0.3);
+  font-weight: bold;
+  color: red;
+  text-align: center;
+}
+
 .hr {
   width: 100px;
   border-width: 0;

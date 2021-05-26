@@ -32,7 +32,11 @@ app.use(cors());
 
 app.get('/posts', (req, res) => {
   console.log("posts requested");
-  res.json(posts)
+  const failFactor = Math.round(Math.random() * 3);
+  if(failFactor === 3) {
+    throw new Error('BROKEN');
+  }
+  res.json(posts);
 })
 
 app.listen(port, () => {

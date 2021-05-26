@@ -6,7 +6,7 @@ export default class Paragraph extends React.PureComponent {
   render() {
     return(
       <p className={styles.p}>
-        {this.props.children}
+        {this.props.children?.toString()}
       </p>
     );
   }
