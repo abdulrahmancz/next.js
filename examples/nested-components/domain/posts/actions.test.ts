@@ -1,8 +1,9 @@
-import * as actions from './actions';
-
 import thunkMiddleware from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import fetchMock from 'fetch-mock';
+
+import * as actions from './actions';
+import * as postUtils from '../../helpers/postsUtils';
 
 const middleware = [thunkMiddleware];
 const mockStore = configureMockStore(middleware);
@@ -57,7 +58,33 @@ test('async action for fetching posts - local server', () => {
   ];
   const store = mockStore({ posts: [] });
   // @ts-ignore
-  store.dispatch(actions.getPosts(false)).then(() => {
+  store.dispatch(actions.getPosts(false) as any).then(() => {
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+});
+test('async action for fetching posts - remote server', () => {
+
+
+  fetchMock.getOnce('https://jsonplaceholder.typicode.com/comments', {
+    body: [{
+      "postId": 1,
+      "id": 1,
+      "name": "title",
+      "email": "email",
+      "body": "body"
+    }],
+    headers: { 'content-type': 'application/json' },
+  });
+
+  const expectedActions = [
+    { type: actions.Types.STORE_LOADING },
+    { type: actions.Types.STORE_POSTS, posts: [{
+      title: 'title',
+      paragraphs: ['body','email'],
+    }]},
+  ];
+  const store = mockStore({ posts: [] });
+  store.dispatch(actions.getPosts(true) as any).then(() => {
     expect(store.getActions()).toEqual(expectedActions);
   });
 });
